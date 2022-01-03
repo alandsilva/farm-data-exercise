@@ -39,7 +39,7 @@ db.createUser({
   ],
 });
 
-db.farms.updateMany({}, [{ $set: { datetime: new Date('$datetime') } }]);
+db.farms.updateMany({}, [{ $set: { datetime: { $toDate: '$datetime' } } }]);
 db.farms.deleteMany({
   $or: [
     filterpH,

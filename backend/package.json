@@ -12,7 +12,8 @@
   "author": "Alan Da Silva",
   "license": "ISC",
   "dependencies": {
-    "express": "^4.17.2"
+    "express": "^4.17.2",
+    "mongoose": "^6.1.4"
   },
   "devDependencies": {
     "eslint": "^8.6.0",
