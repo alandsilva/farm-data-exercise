@@ -1,37 +1,12 @@
-const logger = require('./logger');
-const { parseValue, parseDate } = require('./validators');
+const { parseValue, parseDate } = require('../utils/validators');
 
-const requestLogger = (req, _res, next) => {
-  logger.info('Method:', req.method);
-  logger.info('Path:  ', req.path);
-  logger.info('Body:  ', req.body);
-  logger.info('---');
-  next();
-};
-
-const unknownEndpoint = (_req, res) => {
-  res.status(404).send({ error: 'unknown endpoint' });
-};
-
-const errorHandler = (error, _req, res, next) => {
-  if (error.name === 'ValueError') {
-    return res.status(400).send({ error: error.message });
-  } else if (error.name === 'DateError') {
-    return res.status(400).json({ error: error.message });
-  }
-
-  logger.error('error', error.message);
-
-  next(error);
-};
-
-const processQuery = (req, _res, next) => {
+const queryBuilder = (urlQuery) => {
   const phQuery = [];
   const tempQuery = [];
   const rainQuery = [];
   const dateQuery = [];
-  if (!req.query) {
-    next();
+  if (!urlQuery) {
+    return {};
   }
   const {
     phMax,
@@ -43,7 +18,7 @@ const processQuery = (req, _res, next) => {
     dateStart,
     dateEnd,
     page,
-  } = req.query;
+  } = urlQuery;
 
   if (phMax) {
     const value = parseValue(phMax, 'pH');
@@ -106,7 +81,7 @@ const processQuery = (req, _res, next) => {
   if (phQuery.length > 0) andArray.push({ $and: phQuery });
   if (tempQuery.length > 0) andArray.push({ $and: tempQuery });
   if (rainQuery.length > 0) andArray.push({ $and: rainQuery });
-  if (dateQuery.length > 0) andArray.push({ $and: dateQuery });
+  // if (dateQuery.length > 0) andArray.push({ $and: dateQuery });
 
   console.log(phQuery);
   console.log(tempQuery);
@@ -114,20 +89,23 @@ const processQuery = (req, _res, next) => {
   console.log(dateQuery);
   console.log(andArray);
 
-  req.customQuery = {};
-  req.page = 1;
-  if (andArray.length > 0) req.customQuery = { $or: andArray };
+  let matchQuery = {};
+  let pageNum = 1;
 
-  if (page) {
-    req.page = Number(page);
+  if (andArray.length > 0)
+    matchQuery = { $and: [...dateQuery, { $or: andArray }] };
+  else if (dateQuery.length > 0) {
+    matchQuery = { $and: [...dateQuery] };
   }
 
-  next();
+  if (page) {
+    pageNum = Number(page);
+  }
+
+  return {
+    matchQuery,
+    pageNum,
+  };
 };
 
-module.exports = {
-  requestLogger,
-  unknownEndpoint,
-  errorHandler,
-  processQuery,
-};
+module.exports = queryBuilder;

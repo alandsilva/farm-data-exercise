@@ -15,5 +15,6 @@ app.get('/ping', (_req, res) => {
 app.use('/farms', FarmsRouter);
 
 app.use(middleware.unknownEndpoint);
+app.use(middleware.errorHandler);
 
 module.exports = app;
