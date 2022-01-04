@@ -67,13 +67,13 @@ const queryBuilder = (urlQuery) => {
   if (dateStart) {
     const date = parseDate(dateStart);
     dateQuery.push({
-      datetime: { $gt: new Date(date) },
+      datetime: { $gte: new Date(date) },
     });
   }
   if (dateEnd) {
     const date = parseDate(dateEnd);
     dateQuery.push({
-      datetime: { $lt: new Date(date) },
+      datetime: { $lte: new Date(date) },
     });
   }
 

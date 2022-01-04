@@ -59,10 +59,23 @@ const getEntries = async (urlQuery) => {
     },
   ]);
 
-  return results[0];
+  const result = {
+    ...results[0],
+    found: !results[0].found.length
+      ? { count: 0, page: 0 }
+      : results[0].found[0],
+  };
+
+  return result;
+};
+
+const addEntry = async (newFarm) => {
+  const result = await Farm.insertMany(newFarm);
+  return result;
 };
 
 module.exports = {
   getInfo,
   getEntries,
+  addEntry,
 };

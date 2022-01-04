@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 
 const farmService = require('../services/farmService');
+const { toNewFarmEntry } = require('../utils/validators');
 
 /* GETS ALL FARMS INFO*/
 router.get('/', async (req, res) => {
@@ -13,16 +14,14 @@ router.get('/', async (req, res) => {
 /* GETS FARMS THAT MATCH QUERY */
 router.get('/query', async (req, res) => {
   const result = await farmService.getEntries(req.query);
-  if (!result.found.length) {
-    res.send('No matches');
-  } else {
-    res.send(result);
-  }
+  res.send(result);
 });
 
 /* CREATES ONE FARM */
-router.post('/', (_req, res) => {
-  res.send('Will create one farm entry');
+router.post('/', async (req, res) => {
+  const newEntry = toNewFarmEntry(req.body);
+  const result = await farmService.addEntry(newEntry);
+  res.send(result);
 });
 
 /* CREATES FARMS FROM CSV FILE */

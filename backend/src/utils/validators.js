@@ -7,9 +7,8 @@ const isDate = (date) => {
   return Boolean(Date.parse(date));
 };
 
-// eslint-disable-next-line no-unused-vars
 const isSensor = (param) => {
-  return ['pH, temperature', 'rainFall'].includes(param);
+  return ['pH', 'temperature', 'rainFall'].includes(param);
 };
 
 const isValue = (value, sensor) => {
@@ -46,13 +45,35 @@ class DateError extends Error {
   }
 }
 const parseDate = (date) => {
-  if (!date || !isString(date) || !isDate(date)) {
+  if (!date || !isString(date) || !isDate(date))
     throw new DateError(`Incorrect or missing date: ${date}.`);
-  }
   return new Date(date).getTime();
+};
+
+const parseSensorType = (sensor) => {
+  if (!sensor || !isString(sensor) || !isSensor(sensor))
+    throw new ValueError(`Incorrect or missing sensor: ${sensor}.`);
+  return sensor;
+};
+
+const parseLocation = (location) => {
+  if (!location || !isString(location))
+    throw new ValueError(`Incorrect or missing location: ${location}.`);
+  return location;
+};
+
+const toNewFarmEntry = ({ location, datetime, sensorType, value }) => {
+  const newEntry = {
+    location: parseLocation(location),
+    datetime: parseDate(datetime),
+    sensorType: parseSensorType(sensorType),
+    value: parseValue(value, sensorType),
+  };
+  return newEntry;
 };
 
 module.exports = {
   parseValue,
   parseDate,
+  toNewFarmEntry,
 };
