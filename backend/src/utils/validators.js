@@ -72,8 +72,29 @@ const toNewFarmEntry = ({ location, datetime, sensorType, value }) => {
   return newEntry;
 };
 
+const isFarmEntry = ({ location, datetime, sensorType, value }) => {
+  const locationBool = !(!location || !isString(location));
+
+  const datetimeBool = !(!datetime || !isString(datetime) || !isDate(datetime));
+
+  const sensorTypeBool = !(
+    !sensorType ||
+    !isString(sensorType) ||
+    !isSensor(sensorType)
+  );
+
+  const valueBool = !(
+    !value ||
+    isNaN(Number(value)) ||
+    !isValue(Number(value), sensorType)
+  );
+
+  return locationBool && datetimeBool && sensorTypeBool && valueBool;
+};
+
 module.exports = {
   parseValue,
   parseDate,
   toNewFarmEntry,
+  isFarmEntry,
 };

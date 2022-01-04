@@ -1,5 +1,8 @@
 const { Farm } = require('../mongo');
 const queryBuilder = require('./mongoQueryBuilder');
+const processFile = require('./fileProcessor');
+const { isFarmEntry } = require('../utils/validators');
+const fs = require('fs');
 
 const getInfo = async () => {
   const results = await Farm.aggregate([
@@ -42,7 +45,11 @@ const getEntries = async (urlQuery) => {
           { $count: 'count' },
           { $addFields: { page: { $divide: ['$count', 5] } } },
         ],
-        farms: [{ $match: matchQuery }, { $skip: 5 * pageNum }, { $limit: 5 }],
+        farms: [
+          { $match: matchQuery },
+          { $skip: 5 * (pageNum - 1) },
+          { $limit: 5 },
+        ],
         sensorTypes: [
           { $match: matchQuery },
           {
@@ -70,12 +77,48 @@ const getEntries = async (urlQuery) => {
 };
 
 const addEntry = async (newFarm) => {
-  const result = await Farm.insertMany(newFarm);
+  const result = await Farm.create(newFarm);
   return result;
+};
+
+const addCsvEntries = async (pathName) => {
+  const csvDoc = await processFile(pathName);
+  const validRowsArray = [];
+  const invalidIndexesArray = [];
+
+  csvDoc.forEach((row, i) => {
+    if (isFarmEntry(row)) {
+      validRowsArray.push(row);
+    } else {
+      invalidIndexesArray.push(i + 2);
+      console.log(i + 2);
+    }
+  });
+
+  const uploadResult = await Farm.insertMany(validRowsArray);
+
+  const response = {
+    succesfull: validRowsArray.length,
+    unsucessful: {
+      count: invalidIndexesArray.length,
+      indexes: invalidIndexesArray,
+    },
+    uploadResult,
+  };
+
+  // DELETES LOCAL FILE
+  try {
+    fs.unlinkSync(pathName);
+    //file removed
+  } catch (err) {
+    console.error(err);
+  }
+  return response;
 };
 
 module.exports = {
   getInfo,
   getEntries,
   addEntry,
+  addCsvEntries,
 };

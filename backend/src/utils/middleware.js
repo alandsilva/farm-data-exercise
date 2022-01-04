@@ -20,7 +20,7 @@ const errorHandler = (error, _req, res, next) => {
     return res.status(400).json({ error: error.message });
   }
 
-  logger.error('error', error.message);
+  // logger.error('error', error.message);
 
   next(error);
 };
@@ -128,6 +128,6 @@ const processQuery = (req, _res, next) => {
 module.exports = {
   requestLogger,
   unknownEndpoint,
-  errorHandler,
   processQuery,
+  errorHandler,
 };

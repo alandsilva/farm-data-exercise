@@ -4,6 +4,8 @@ const router = express.Router();
 const farmService = require('../services/farmService');
 const { toNewFarmEntry } = require('../utils/validators');
 
+const uploader = require('../utils/uploader');
+
 /* GETS ALL FARMS INFO*/
 router.get('/', async (req, res) => {
   const result = await farmService.getInfo();
@@ -25,8 +27,17 @@ router.post('/', async (req, res) => {
 });
 
 /* CREATES FARMS FROM CSV FILE */
-router.post('/csv', (_req, res) => {
-  res.send('Will create farm entries from csv file');
+router.post('/csv', uploader.single('farm'), async (req, res) => {
+  if (!req.file)
+    res.status(400).send({
+      message: 'Please upload a CSV file',
+    });
+  else {
+    // Upload to databse
+    const result = await farmService.addCsvEntries(req.file.path);
+    res.send(result);
+    // Remove file from temp folder
+  }
 });
 
 module.exports = router;
