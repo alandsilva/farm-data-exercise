@@ -1,0 +1,388 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Farm API",
+    "description": "An API that allows users to obtain information on farms or post new farms",
+    "contact": {
+      "name": "Alan Da Silva",
+      "email": "dasilva.alan@outlook.com"
+    },
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "http://localhost:3001"
+    },
+    {
+      "url": "https://virtserver.swaggerhub.com/alandasilva/FarmAPI/1.0.0",
+      "description": "SwaggerHub API Auto Mocking"
+    }
+  ],
+  "paths": {
+    "/farms/info": {
+      "get": {
+        "summary": "Gets statistics on state of the whole farms database.",
+        "description": "Obtain general information about the state of the farms database",
+        "responses": {
+          "200": {
+            "description": "Succesful pull of general info",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/inline_response_200"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/farms": {
+      "get": {
+        "summary": "Gets farm entries and statistics.",
+        "description": "Obtain information about farms form the database",
+        "parameters": [
+          {
+            "name": "limit",
+            "in": "query",
+            "description": "The amount of employees returned",
+            "required": false,
+            "style": "form",
+            "explode": true,
+            "schema": {
+              "maximum": 50,
+              "minimum": 10,
+              "type": "integer"
+            }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "description": "The page to return of farms info",
+            "required": false,
+            "style": "form",
+            "explode": true,
+            "schema": {
+              "minimum": 1,
+              "type": "integer"
+            }
+          },
+          {
+            "name": "phMin",
+            "in": "query",
+            "description": "The minimum pH to return from farms info",
+            "required": false,
+            "style": "form",
+            "explode": true,
+            "schema": {
+              "$ref": "#/components/schemas/phValue"
+            }
+          },
+          {
+            "name": "phMax",
+            "in": "query",
+            "description": "The maximum pH to return from farms info",
+            "required": false,
+            "style": "form",
+            "explode": true,
+            "schema": {
+              "$ref": "#/components/schemas/phValue"
+            }
+          },
+          {
+            "name": "tempMin",
+            "in": "query",
+            "description": "The minimum temperature to return from farms info",
+            "required": false,
+            "style": "form",
+            "explode": true,
+            "schema": {
+              "$ref": "#/components/schemas/tempValue"
+            }
+          },
+          {
+            "name": "tempMax",
+            "in": "query",
+            "description": "The maximum temperature to return from farms info",
+            "required": false,
+            "style": "form",
+            "explode": true,
+            "schema": {
+              "$ref": "#/components/schemas/tempValue"
+            }
+          },
+          {
+            "name": "rainMin",
+            "in": "query",
+            "description": "The minimum rainfall to return from farms info",
+            "required": false,
+            "style": "form",
+            "explode": true,
+            "schema": {
+              "$ref": "#/components/schemas/rainValue"
+            }
+          },
+          {
+            "name": "rainMax",
+            "in": "query",
+            "description": "The maximum rainFall to return from farms info",
+            "required": false,
+            "style": "form",
+            "explode": true,
+            "schema": {
+              "$ref": "#/components/schemas/rainValue"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Succesful pull of farms info",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/inline_response_200_1"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "summary": "Uploads a farm entry.",
+        "requestBody": {
+          "description": "A new farm object",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/newFarm"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Succesful creation of farm",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/farm"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/farms/csv": {
+      "post": {
+        "summary": "Uploads a csv file.",
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "$ref": "#/components/schemas/farms_csv_body"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Info on rows that succeded and failed to upload",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/inline_response_200_2"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "phValue": {
+        "maximum": 14,
+        "minimum": 0,
+        "type": "number",
+        "description": "A valid ph value"
+      },
+      "tempValue": {
+        "maximum": 100,
+        "minimum": -50,
+        "type": "number",
+        "description": "A valid temperature value"
+      },
+      "rainValue": {
+        "maximum": 500,
+        "minimum": 0,
+        "type": "number",
+        "description": "A valid rainFall value"
+      },
+      "farm": {
+        "type": "object",
+        "properties": {
+          "_id": {
+            "type": "string"
+          },
+          "location": {
+            "type": "string"
+          },
+          "datetime": {
+            "type": "string"
+          },
+          "sensorType": {
+            "$ref": "#/components/schemas/sensorType"
+          },
+          "value": {
+            "type": "number"
+          }
+        },
+        "description": "A farm object"
+      },
+      "newFarm": {
+        "type": "object",
+        "properties": {
+          "location": {
+            "type": "string"
+          },
+          "datetime": {
+            "type": "string"
+          },
+          "sensorType": {
+            "$ref": "#/components/schemas/sensorType"
+          },
+          "value": {
+            "type": "number"
+          }
+        },
+        "description": "A farm object"
+      },
+      "sensorType": {
+        "type": "string",
+        "enum": [
+          "pH",
+          "temperature",
+          "rainFall"
+        ]
+      },
+      "sensorStat": {
+        "type": "object",
+        "properties": {
+          "_id": {
+            "$ref": "#/components/schemas/sensorType"
+          },
+          "min": {
+            "type": "number"
+          },
+          "max": {
+            "type": "number"
+          },
+          "avg": {
+            "type": "number"
+          },
+          "count": {
+            "type": "integer"
+          }
+        },
+        "description": "Statistics on sensorType"
+      },
+      "locationStat": {
+        "type": "object",
+        "properties": {
+          "_id": {
+            "type": "string"
+          },
+          "count": {
+            "type": "integer"
+          }
+        },
+        "description": "Statistics on farm location"
+      },
+      "inline_response_200": {
+        "type": "object",
+        "properties": {
+          "count": {
+            "type": "integer"
+          },
+          "sensors": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/sensorStat"
+            }
+          },
+          "locations": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/locationStat"
+            }
+          }
+        }
+      },
+      "inline_response_200_1": {
+        "type": "object",
+        "properties": {
+          "count": {
+            "type": "integer"
+          },
+          "pages": {
+            "type": "number"
+          },
+          "sensors": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/sensorStat"
+            }
+          },
+          "locations": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/locationStat"
+            }
+          },
+          "farms": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/farm"
+            }
+          }
+        }
+      },
+      "farms_csv_body": {
+        "type": "object",
+        "properties": {
+          "farm": {
+            "type": "string",
+            "format": "binary"
+          }
+        }
+      },
+      "inline_response_200_2": {
+        "type": "object",
+        "properties": {
+          "succesful": {
+            "type": "integer"
+          },
+          "unsuccesful": {
+            "$ref": "#/components/schemas/inline_response_200_2_unsuccesful"
+          }
+        }
+      },
+      "inline_response_200_2_unsuccesful": {
+        "type": "object",
+        "properties": {
+          "count": {
+            "type": "integer"
+          },
+          "indexes": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    }
+  }
+}

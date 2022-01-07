@@ -18,6 +18,7 @@ const queryBuilder = (urlQuery) => {
     dateStart,
     dateEnd,
     page,
+    limit,
   } = urlQuery;
 
   if (phMax) {
@@ -90,21 +91,26 @@ const queryBuilder = (urlQuery) => {
   console.log(andArray);
 
   let matchQuery = {};
-  let pageNum = 1;
-
   if (andArray.length > 0)
     matchQuery = { $and: [...dateQuery, { $or: andArray }] };
   else if (dateQuery.length > 0) {
     matchQuery = { $and: [...dateQuery] };
   }
 
+  let pageNum = 1;
   if (page) {
     pageNum = Number(page);
+  }
+
+  let limitNum = 10;
+  if (limit) {
+    limitNum = Number(limit);
   }
 
   return {
     matchQuery,
     pageNum,
+    limitNum,
   };
 };
 

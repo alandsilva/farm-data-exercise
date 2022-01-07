@@ -7,14 +7,14 @@ const { toNewFarmEntry } = require('../utils/validators');
 const uploader = require('../utils/uploader');
 
 /* GETS ALL FARMS INFO*/
-router.get('/', async (req, res) => {
+router.get('/info', async (req, res) => {
   const result = await farmService.getInfo();
 
   res.send(result);
 });
 
 /* GETS FARMS THAT MATCH QUERY */
-router.get('/query', async (req, res) => {
+router.get('/', async (req, res) => {
   const result = await farmService.getEntries(req.query);
   res.send(result);
 });

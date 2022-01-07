@@ -8,8 +8,8 @@ const getInfo = async () => {
   const results = await Farm.aggregate([
     {
       $facet: {
-        total: [{ $count: 'count' }],
-        sensorTypes: [
+        info: [{ $count: 'count' }],
+        sensors: [
           {
             $group: {
               _id: '$sensorType',
@@ -32,25 +32,26 @@ const getInfo = async () => {
     },
   ]);
 
-  return results[0];
+  const formatedResult = {
+    count: results[0].info[0].count,
+    ...results[0],
+  };
+  delete formatedResult.info;
+
+  return formatedResult;
 };
 
 const getEntries = async (urlQuery) => {
-  const { matchQuery, pageNum } = queryBuilder(urlQuery);
+  const { matchQuery, pageNum, limitNum } = queryBuilder(urlQuery);
   const results = await Farm.aggregate([
     {
       $facet: {
-        found: [
+        info: [
           { $match: matchQuery },
           { $count: 'count' },
-          { $addFields: { page: { $divide: ['$count', 5] } } },
+          { $addFields: { pages: { $divide: ['$count', limitNum] } } },
         ],
-        farms: [
-          { $match: matchQuery },
-          { $skip: 5 * (pageNum - 1) },
-          { $limit: 5 },
-        ],
-        sensorTypes: [
+        sensors: [
           { $match: matchQuery },
           {
             $group: {
@@ -62,18 +63,36 @@ const getEntries = async (urlQuery) => {
             },
           },
         ],
+        locations: [
+          { $match: matchQuery },
+          {
+            $group: {
+              _id: '$location',
+              count: { $count: {} },
+            },
+          },
+        ],
+        farms: [
+          { $match: matchQuery },
+          { $skip: limitNum * (pageNum - 1) },
+          { $limit: limitNum },
+        ],
       },
     },
   ]);
 
-  const result = {
-    ...results[0],
-    found: !results[0].found.length
-      ? { count: 0, page: 0 }
-      : results[0].found[0],
-  };
+  const info = !results[0].info.length
+    ? { count: 0, pages: 0 }
+    : results[0].info[0];
 
-  return result;
+  const formatedResult = {
+    count: info.count,
+    pages: info.pages,
+    ...results[0],
+  };
+  delete formatedResult.info;
+
+  return formatedResult;
 };
 
 const addEntry = async (newFarm) => {
@@ -95,7 +114,7 @@ const addCsvEntries = async (pathName) => {
     }
   });
 
-  const uploadResult = await Farm.insertMany(validRowsArray);
+  await Farm.insertMany(validRowsArray);
 
   const response = {
     succesfull: validRowsArray.length,
@@ -103,7 +122,6 @@ const addCsvEntries = async (pathName) => {
       count: invalidIndexesArray.length,
       indexes: invalidIndexesArray,
     },
-    uploadResult,
   };
 
   // DELETES LOCAL FILE
