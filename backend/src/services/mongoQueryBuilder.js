@@ -82,13 +82,6 @@ const queryBuilder = (urlQuery) => {
   if (phQuery.length > 0) andArray.push({ $and: phQuery });
   if (tempQuery.length > 0) andArray.push({ $and: tempQuery });
   if (rainQuery.length > 0) andArray.push({ $and: rainQuery });
-  // if (dateQuery.length > 0) andArray.push({ $and: dateQuery });
-
-  console.log(phQuery);
-  console.log(tempQuery);
-  console.log(rainQuery);
-  console.log(dateQuery);
-  console.log(andArray);
 
   let matchQuery = {};
   if (andArray.length > 0)
