@@ -1,8 +1,8 @@
 const { Farm } = require('../mongo');
 const queryBuilder = require('./mongoQueryBuilder');
-const processFile = require('./fileProcessor');
+const processFile = require('../utils/fileProcessor');
 const { isFarmEntry } = require('../utils/validators');
-const fs = require('fs');
+const removeFile = require('../utils/fileRemover');
 
 const getInfo = async () => {
   const results = await Farm.aggregate([
@@ -125,12 +125,8 @@ const addCsvEntries = async (pathName) => {
   };
 
   // DELETES LOCAL FILE
-  try {
-    fs.unlinkSync(pathName);
-    //file removed
-  } catch (err) {
-    console.error(err);
-  }
+  removeFile(pathName);
+
   return response;
 };
 

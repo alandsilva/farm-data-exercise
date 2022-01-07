@@ -97,4 +97,5 @@ module.exports = {
   parseDate,
   toNewFarmEntry,
   isFarmEntry,
+  ValueError,
 };

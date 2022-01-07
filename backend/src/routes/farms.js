@@ -4,7 +4,7 @@ const router = express.Router();
 const farmService = require('../services/farmService');
 const { toNewFarmEntry } = require('../utils/validators');
 
-const uploader = require('../utils/uploader');
+const uploader = require('../utils/fileUploaderMiddleware');
 
 /* GETS ALL FARMS INFO*/
 router.get('/info', async (req, res) => {
