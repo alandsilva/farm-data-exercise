@@ -90,7 +90,7 @@ const queryBuilder = (urlQuery) => {
     matchQuery = { $and: [...dateQuery] };
   }
 
-  let pageNum = 1;
+  let pageNum = 0;
   if (page) {
     pageNum = Number(page);
   }

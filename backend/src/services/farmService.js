@@ -74,7 +74,7 @@ const getEntries = async (urlQuery) => {
         ],
         farms: [
           { $match: matchQuery },
-          { $skip: limitNum * (pageNum - 1) },
+          { $skip: limitNum * pageNum },
           { $limit: limitNum },
         ],
       },
