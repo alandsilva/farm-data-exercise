@@ -15,8 +15,8 @@ const queryBuilder = (urlQuery) => {
     tempMax,
     rainMin,
     rainMax,
-    dateStart,
-    dateEnd,
+    dateMin,
+    dateMax,
     page,
     limit,
   } = urlQuery;
@@ -65,14 +65,14 @@ const queryBuilder = (urlQuery) => {
       value: { $gte: value },
     });
   }
-  if (dateStart) {
-    const date = parseDate(dateStart);
+  if (dateMin) {
+    const date = parseDate(dateMin);
     dateQuery.push({
       datetime: { $gte: new Date(date) },
     });
   }
-  if (dateEnd) {
-    const date = parseDate(dateEnd);
+  if (dateMax) {
+    const date = parseDate(dateMax);
     dateQuery.push({
       datetime: { $lte: new Date(date) },
     });

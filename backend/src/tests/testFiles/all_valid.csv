@@ -1,0 +1,4 @@
+location,datetime,sensorType,value
+Great Farm,2018-12-31T22:00:00.000Z,pH,5.88
+Great Farm,2018-12-31T22:00:00.000Z,rainFall,3.1
+Great Farm,2019-01-01T11:19:44.018Z,temperature,-8.3

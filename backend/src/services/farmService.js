@@ -117,10 +117,10 @@ const addCsvEntries = async (pathName) => {
   await Farm.insertMany(validRowsArray);
 
   const response = {
-    succesfull: validRowsArray.length,
-    unsucessful: {
+    successful: validRowsArray.length,
+    unsuccessful: {
       count: invalidIndexesArray.length,
-      indexes: invalidIndexesArray,
+      rows: invalidIndexesArray,
     },
   };
 

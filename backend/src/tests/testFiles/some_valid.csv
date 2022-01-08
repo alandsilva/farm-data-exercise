@@ -1,0 +1,4 @@
+location,datetime,sensorType,value
+Okay Farm,2018-12-31T22:00:00.000Z,pH,5.88
+Okay Farm,2019-01-02T11:19:44.018Z,random_type,6.21
+Okay Farm,2019-01-02T11:19:44.018Z,rainFall,-5

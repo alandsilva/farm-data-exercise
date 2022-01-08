@@ -47,7 +47,7 @@ class DateError extends Error {
 const parseDate = (date) => {
   if (!date || !isString(date) || !isDate(date))
     throw new DateError(`Incorrect or missing date: ${date}.`);
-  return new Date(date).getTime();
+  return date;
 };
 
 const parseSensorType = (sensor) => {
