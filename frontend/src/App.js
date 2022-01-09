@@ -5,6 +5,7 @@ import Grid from '@mui/material/Grid';
 
 import Farms from './components/Farms';
 import Filters from './components/Filters';
+import FarmPage from './pages/FarmPage';
 
 const App = () => {
   const [info, setInfo] = useState(null);
@@ -22,14 +23,7 @@ const App = () => {
   }, []);
   return (
     <Box sx={{ flexGrow: 1 }}>
-      <Grid container spacing={2}>
-        <Grid item xs={8}>
-          <Farms />
-        </Grid>
-        <Grid item xs={4}>
-          <Filters />
-        </Grid>
-      </Grid>
+      <FarmPage />
     </Box>
   );
 };

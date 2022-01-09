@@ -10,18 +10,14 @@ import TablePagination from '@mui/material/TablePagination';
 
 import farmsService from '../services/farms';
 
-const Farms = () => {
+const Farms = (props) => {
   const [farms, setFarms] = useState([]);
   const [count, setCount] = useState(0);
-  const [filters, setFilters] = useState({
-    page: 0,
-    limit: 10,
-  });
 
   useEffect(() => {
     const getFarms = async () => {
-      const qs = Object.keys(filters)
-        .map((key) => `${key}=${filters[key]}`)
+      const qs = Object.keys(props.filters)
+        .map((key) => `${key}=${props.filters[key]}`)
         .join('&');
       const data = await farmsService.getFarms(qs);
       console.log(data);
@@ -29,7 +25,7 @@ const Farms = () => {
       setCount(data.count);
     };
     getFarms();
-  }, [filters]);
+  }, [props.filters]);
   return (
     <div>
       <TableContainer component={Paper}>
@@ -63,20 +59,13 @@ const Farms = () => {
         rowsPerPageOptions={[5, 10, 25]}
         component='div'
         count={count}
-        rowsPerPage={filters.limit}
-        page={filters.page}
+        rowsPerPage={props.filters.limit}
+        page={props.filters.page}
         onPageChange={(event, newPage) => {
-          setFilters({
-            ...filters,
-            page: newPage,
-          });
-          console.log(newPage);
+          props.setPage(newPage);
         }}
         onRowsPerPageChange={(event) => {
-          setFilters({
-            ...filters,
-            limit: parseInt(event.target.value, 10),
-          });
+          props.setLimit(parseInt(event.target.value, 10));
         }}
       />
     </div>

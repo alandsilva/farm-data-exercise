@@ -1,32 +1,40 @@
-import React, { useState } from 'react';
-import Box from '@mui/material/Box';
-import Slider from '@mui/material/Slider';
+import React from 'react';
+import Filter from './Filter';
+import DateFilter from './DateFilter';
 
-function valuetext(value) {
-  return `${value}°C`;
-}
-
-export default function RangeSlider() {
-  const [value, setValue] = useState([20, 37]);
-
-  const handleChange = (event, newValue) => {
-    setValue(newValue);
-  };
-
+const Filters = (props) => {
   return (
-    <Box sx={{ width: 300 }}>
-      <h1>Filter</h1>
-      {/* <span>min:{value[0]}</span>
-      <Slider
-        getAriaLabel={() => 'Temperature range'}
-        value={value}
-        onChange={handleChange}
-        valueLabelDisplay='auto'
-        min={-50}
-        max={100}
-        getAriaValueText={valuetext}
+    <div>
+      <Filter
+        title='pH'
+        min={props.filters.phMin}
+        max={props.filters.phMax}
+        setMin={props.setPhMin}
+        setMax={props.setPhMax}
+        minLimit={0}
+        maxLimit={14}
       />
-      <span>max:{value[1]}</span> */}
-    </Box>
+      <Filter
+        title='temperature'
+        min={props.filters.tempMin}
+        max={props.filters.tempMax}
+        setMin={props.setTempMin}
+        setMax={props.setTempMax}
+        minLimit={-50}
+        maxLimit={100}
+      />
+      <Filter
+        title='rainFall'
+        min={props.filters.rainMin}
+        max={props.filters.rainMax}
+        setMin={props.setRainMin}
+        setMax={props.setRainMax}
+        minLimit={0}
+        maxLimit={500}
+      />
+      <DateFilter />
+    </div>
   );
-}
+};
+
+export default Filters;
