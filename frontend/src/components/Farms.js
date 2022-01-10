@@ -1,18 +1,20 @@
 import React, { useState, useEffect } from 'react';
-import Table from '@mui/material/Table';
-import TableBody from '@mui/material/TableBody';
-import TableCell from '@mui/material/TableCell';
-import TableContainer from '@mui/material/TableContainer';
-import TableHead from '@mui/material/TableHead';
-import TableRow from '@mui/material/TableRow';
-import Paper from '@mui/material/Paper';
-import TablePagination from '@mui/material/TablePagination';
+import { Box, Tab } from '@mui/material';
+import { TabContext, TabList, TabPanel } from '@mui/lab';
+import FarmsTable from './FarmsTable';
+import FarmsStatistics from './FarmsStatistics';
 
 import farmsService from '../services/farms';
 
 const Farms = (props) => {
   const [farms, setFarms] = useState([]);
+  const [stats, setStats] = useState([]);
   const [count, setCount] = useState(0);
+  const [tab, setTab] = React.useState('1');
+
+  const handleChange = (event, newValue) => {
+    setTab(newValue);
+  };
 
   useEffect(() => {
     const getFarms = async () => {
@@ -23,51 +25,28 @@ const Farms = (props) => {
       console.log(data);
       setFarms(data.farms);
       setCount(data.count);
+      setStats(data.locationStats);
     };
     getFarms();
   }, [props.filters]);
   return (
     <div>
-      <TableContainer component={Paper}>
-        <Table sx={{ minWidth: 650 }} aria-label='simple table'>
-          <TableHead>
-            <TableRow>
-              <TableCell>Location</TableCell>
-              <TableCell align='right'>date</TableCell>
-              <TableCell align='right'>sensor</TableCell>
-              <TableCell align='right'>value</TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {farms.map((farm) => (
-              <TableRow
-                key={farm._id}
-                sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-              >
-                <TableCell component='th' scope='row'>
-                  {farm.location}
-                </TableCell>
-                <TableCell align='right'>{farm.datetime}</TableCell>
-                <TableCell align='right'>{farm.sensorType}</TableCell>
-                <TableCell align='right'>{farm.value}</TableCell>
-              </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-      </TableContainer>
-      <TablePagination
-        rowsPerPageOptions={[5, 10, 25]}
-        component='div'
-        count={count}
-        rowsPerPage={props.filters.limit}
-        page={props.filters.page}
-        onPageChange={(event, newPage) => {
-          props.setPage(newPage);
-        }}
-        onRowsPerPageChange={(event) => {
-          props.setLimit(parseInt(event.target.value, 10));
-        }}
-      />
+      <Box sx={{ width: '100%', typography: 'body1' }}>
+        <TabContext value={tab}>
+          <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
+            <TabList onChange={handleChange} aria-label='lab API tabs example'>
+              <Tab label='Table' value='1' />
+              <Tab label='Statistics' value='2' />
+            </TabList>
+          </Box>
+          <TabPanel value='1'>
+            <FarmsTable farms={farms} count={count} {...props} />
+          </TabPanel>
+          <TabPanel value='2'>
+            <FarmsStatistics stats={stats} />
+          </TabPanel>
+        </TabContext>
+      </Box>
     </div>
   );
 };

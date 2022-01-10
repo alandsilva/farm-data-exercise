@@ -51,24 +51,15 @@ const getEntries = async (urlQuery) => {
           { $count: 'count' },
           { $addFields: { pages: { $divide: ['$count', limitNum] } } },
         ],
-        sensors: [
+        locationStats: [
           { $match: matchQuery },
           {
             $group: {
-              _id: '$sensorType',
+              _id: { location: '$location', sensorType: '$sensorType' },
+              count: { $count: {} },
               max: { $max: '$value' },
               min: { $min: '$value' },
               avg: { $avg: '$value' },
-              count: { $count: {} },
-            },
-          },
-        ],
-        locations: [
-          { $match: matchQuery },
-          {
-            $group: {
-              _id: '$location',
-              count: { $count: {} },
             },
           },
         ],
