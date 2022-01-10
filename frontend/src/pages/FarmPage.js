@@ -4,7 +4,7 @@ import Filters from '../components/Filters';
 import Grid from '@mui/material/Grid';
 
 const FarmPage = () => {
-  const [filters, setFilters] = useState({
+  const initialFilters = {
     page: 0,
     limit: 10,
     phMin: 0,
@@ -15,7 +15,12 @@ const FarmPage = () => {
     rainMax: 500,
     dateMin: '',
     dateMax: '',
-  });
+  };
+  const [filters, setFilters] = useState(initialFilters);
+
+  const resetFilters = () => {
+    setFilters(initialFilters);
+  };
 
   const setPage = (value) => {
     setFilters({ ...filters, page: value });
@@ -59,12 +64,15 @@ const FarmPage = () => {
         <Grid item xs={4}>
           <Filters
             filters={filters}
+            resetFilters={resetFilters}
             setPhMin={setPhMin}
             setPhMax={setPhMax}
             setTempMin={setTempMin}
             setTempMax={setTempMax}
             setRainMin={setRainMin}
             setRainMax={setRainMax}
+            setDateMin={setDateMin}
+            setDateMax={setDateMax}
           />
         </Grid>
       </Grid>

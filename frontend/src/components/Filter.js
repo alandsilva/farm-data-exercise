@@ -5,6 +5,7 @@ import Typography from '@mui/material/Typography';
 import Grid from '@mui/material/Grid';
 import MuiInput from '@mui/material/Input';
 import { styled } from '@mui/material/styles';
+import Paper from '@mui/material/Paper';
 const Input = styled(MuiInput)`
   width: 60px;
 `;
@@ -27,53 +28,55 @@ const Filter = (props) => {
   };
 
   return (
-    <Box sx={{ width: 300 }}>
-      <Typography id='input-slider' gutterBottom>
-        {props.title}
-      </Typography>
-      <Grid container spacing={2} alignItems='center'>
-        <Grid item>
-          <Input
-            value={props.min}
-            size='small'
-            onChange={handleMinChange}
-            inputProps={{
-              step: 1,
-              min: props.minLimit,
-              max: props.maxLimit,
-              type: 'number',
-              'aria-labelledby': 'input-slider',
-            }}
-          />
-        </Grid>
+    <Box>
+      <Paper variant='outlined' style={{ padding: 10 }}>
+        <Typography id='input-slider' gutterBottom>
+          {props.title}
+        </Typography>
+        <Grid container spacing={2} alignItems='center'>
+          <Grid item>
+            <Input
+              value={props.min}
+              size='small'
+              onChange={handleMinChange}
+              inputProps={{
+                step: 1,
+                min: props.minLimit,
+                max: props.maxLimit,
+                type: 'number',
+                'aria-labelledby': 'input-slider',
+              }}
+            />
+          </Grid>
 
-        <Grid item xs>
-          <Slider
-            getAriaLabel={() => 'Temperature range'}
-            value={[props.min, props.max]}
-            onChange={handleChange}
-            valueLabelDisplay='auto'
-            min={props.minLimit}
-            max={props.maxLimit}
-            getAriaValueText={valuetext}
-          />
-        </Grid>
+          <Grid item xs>
+            <Slider
+              getAriaLabel={() => 'Temperature range'}
+              value={[props.min, props.max]}
+              onChange={handleChange}
+              valueLabelDisplay='auto'
+              min={props.minLimit}
+              max={props.maxLimit}
+              getAriaValueText={valuetext}
+            />
+          </Grid>
 
-        <Grid item>
-          <Input
-            value={props.max}
-            size='small'
-            onChange={handleMaxChange}
-            inputProps={{
-              step: 1,
-              min: props.minLimit,
-              max: props.maxLimit,
-              type: 'number',
-              'aria-labelledby': 'input-slider',
-            }}
-          />
+          <Grid item>
+            <Input
+              value={props.max}
+              size='small'
+              onChange={handleMaxChange}
+              inputProps={{
+                step: 1,
+                min: props.minLimit,
+                max: props.maxLimit,
+                type: 'number',
+                'aria-labelledby': 'input-slider',
+              }}
+            />
+          </Grid>
         </Grid>
-      </Grid>
+      </Paper>
     </Box>
   );
 };

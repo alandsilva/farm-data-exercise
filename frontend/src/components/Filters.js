@@ -1,10 +1,12 @@
 import React from 'react';
 import Filter from './Filter';
 import DateFilter from './DateFilter';
+import Button from '@mui/material/Button';
+import Stack from '@mui/material/Stack';
 
 const Filters = (props) => {
   return (
-    <div>
+    <Stack spacing={2} direction='column'>
       <Filter
         title='pH'
         min={props.filters.phMin}
@@ -32,8 +34,21 @@ const Filters = (props) => {
         minLimit={0}
         maxLimit={500}
       />
-      <DateFilter />
-    </div>
+      <DateFilter
+        dateMin={props.filters.dateMin}
+        dateMax={props.filters.dateMax}
+        setDateMin={props.setDateMin}
+        setDateMax={props.setDateMax}
+      />
+      <Button
+        onClick={() => {
+          props.resetFilters();
+        }}
+        variant='contained'
+      >
+        Reset Filters
+      </Button>
+    </Stack>
   );
 };
 

@@ -1,41 +1,44 @@
-import React, { useState } from 'react';
+import React from 'react';
 import Typography from '@mui/material/Typography';
 import Grid from '@mui/material/Grid';
 import TextField from '@mui/material/TextField';
+import { Box, Paper } from '@mui/material';
 
-const DateFilter = () => {
-  const [date, setDate] = useState('2021-12-30');
-
-  const handleChange = (event) => {
-    setDate(event.target.value);
-  };
-
+const DateFilter = (props) => {
   return (
-    <div>
-      <Typography id='input-slider' gutterBottom>
-        Date
-      </Typography>
-      <Grid container spacing={2} alignItems='center'>
-        <Grid item xs>
-          <TextField
-            type='date'
-            value={date}
-            onChange={handleChange}
-            variant='standard'
-            label='Start'
-          />
+    <Box>
+      <Paper variant='outlined' style={{ padding: 10 }}>
+        <Typography id='input-slider' gutterBottom>
+          Date
+        </Typography>
+        <Grid container spacing={2} alignItems='center'>
+          <Grid item xs>
+            <TextField
+              type='date'
+              value={props.dateMin}
+              onChange={(event) => {
+                props.setDateMin(event.target.value);
+              }}
+              variant='standard'
+              label='Start'
+              InputLabelProps={{ shrink: true }}
+            />
+          </Grid>
+          <Grid item xs>
+            <TextField
+              type='date'
+              value={props.dateMax}
+              onChange={(event) => {
+                props.setDateMax(event.target.value);
+              }}
+              variant='standard'
+              label='End'
+              InputLabelProps={{ shrink: true }}
+            />
+          </Grid>
         </Grid>
-        <Grid item xs>
-          <TextField
-            type='date'
-            value={date}
-            onChange={handleChange}
-            variant='standard'
-            label='End'
-          />
-        </Grid>
-      </Grid>
-    </div>
+      </Paper>
+    </Box>
   );
 };
 
