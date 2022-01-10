@@ -12,4 +12,9 @@ const getFarms = async (query = '') => {
   return response.data;
 };
 
-export default { getInfo, getFarms };
+const createFarm = async (farmObject) => {
+  const response = await axios.post(`${baseUrl}/farms/`, farmObject);
+  return response.data;
+};
+
+export default { getInfo, getFarms, createFarm };
