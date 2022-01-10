@@ -17,4 +17,19 @@ const createFarm = async (farmObject) => {
   return response.data;
 };
 
-export default { getInfo, getFarms, createFarm };
+const uploadCsv = async (formData) => {
+  const response = await axios.post(`${baseUrl}/farms/csv`, formData, {
+    headers: {
+      'Content-type': 'multipart/form-data',
+    },
+  });
+  return response.data;
+};
+
+const services = {
+  getInfo,
+  getFarms,
+  createFarm,
+  uploadCsv,
+};
+export default services;
