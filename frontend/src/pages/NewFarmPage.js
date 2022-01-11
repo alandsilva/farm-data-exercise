@@ -76,6 +76,7 @@ const NewFarmPage = () => {
         minHeight='60vh'
       >
         <form onSubmit={handleSubmit}>
+          <h2>Create Farm</h2>
           <Stack spacing={2}>
             <TextField
               label='location'

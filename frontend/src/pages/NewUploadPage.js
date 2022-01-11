@@ -6,6 +6,7 @@ const NewUploadPage = () => {
   const [file, setFile] = useState(null);
   const [errorMessage, setErrorMessage] = useState(null);
   const [successMessage, setSuccessMessage] = useState(null);
+  const [alertMessage, setAlertMessage] = useState(null);
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -15,15 +16,22 @@ const NewUploadPage = () => {
     try {
       const result = await farmsService.uploadCsv(formData);
       console.log(result);
-      setSuccessMessage('Farm succesfully added');
+      setSuccessMessage(`${result.successful} farms succesfully added`);
+      if (result.unsuccessful.count > 0)
+        setAlertMessage(
+          `${result.unsuccessful.count} could not be added due to invalid data in rows: ${result.unsuccessful.rows}`
+        );
       setFile(null);
       setTimeout(() => {
         setSuccessMessage(null);
+        setAlertMessage(null);
+        setFile(null);
       }, 5000);
     } catch (error) {
       setErrorMessage(error.response.data.message);
       setTimeout(() => {
         setErrorMessage(null);
+        setFile(null);
       }, 5000);
     }
   };
@@ -36,6 +44,7 @@ const NewUploadPage = () => {
     <div>
       {successMessage && <Alert severity='success'>{successMessage}</Alert>}
       {errorMessage && <Alert severity='error'>{errorMessage}</Alert>}
+      {alertMessage && <Alert severity='warning'>{alertMessage}</Alert>}
       <Box
         display='flex'
         justifyContent='center'
@@ -43,6 +52,7 @@ const NewUploadPage = () => {
         minHeight='60vh'
       >
         <form onSubmit={handleSubmit}>
+          <h2>Upload CSV file</h2>
           <Stack spacing={2}>
             <TextField type='file' onChange={handleFileChange} />
             <div>

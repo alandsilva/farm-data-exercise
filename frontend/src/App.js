@@ -26,6 +26,7 @@ const App = () => {
       <Navbar />
       <Routes>
         <Route path='/' element={<FarmPage />} />
+        <Route path='/home' element={<FarmPage />} />
         <Route path='/create' element={<NewFarmPage />} />
         <Route path='/upload' element={<NewUploadPage />} />
         <Route

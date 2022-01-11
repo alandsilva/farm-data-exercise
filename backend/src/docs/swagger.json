@@ -12,10 +12,6 @@
   "servers": [
     {
       "url": "http://localhost:3001"
-    },
-    {
-      "url": "https://virtserver.swaggerhub.com/alandasilva/FarmAPI/1.0.0",
-      "description": "SwaggerHub API Auto Mocking"
     }
   ],
   "paths": {
@@ -51,7 +47,7 @@
             "explode": true,
             "schema": {
               "maximum": 50,
-              "minimum": 10,
+              "minimum": 5,
               "type": "integer"
             }
           },
@@ -65,6 +61,28 @@
             "schema": {
               "minimum": 1,
               "type": "integer"
+            }
+          },
+          {
+            "name": "dateMin",
+            "in": "query",
+            "description": "The minimum date to return from farms info",
+            "required": false,
+            "style": "form",
+            "explode": true,
+            "schema": {
+              "$ref": "#/components/schemas/dateValue"
+            }
+          },
+          {
+            "name": "dateMax",
+            "in": "query",
+            "description": "The maximum date to return from farms info",
+            "required": false,
+            "style": "form",
+            "explode": true,
+            "schema": {
+              "$ref": "#/components/schemas/dateValue"
             }
           },
           {
@@ -144,6 +162,16 @@
                 }
               }
             }
+          },
+          "400": {
+            "description": "Unsuccesful due to missing or invalid data",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/valueError"
+                }
+              }
+            }
           }
         }
       },
@@ -166,6 +194,16 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/farm"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Unsuccesful due to missing or invalid data",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/valueError"
                 }
               }
             }
@@ -195,6 +233,16 @@
                 }
               }
             }
+          },
+          "400": {
+            "description": "Unsuccesful due to invalid header in CSV file",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/inline_response_400"
+                }
+              }
+            }
           }
         }
       }
@@ -219,6 +267,10 @@
         "minimum": 0,
         "type": "number",
         "description": "A valid rainFall value"
+      },
+      "dateValue": {
+        "type": "string",
+        "description": "A date string"
       },
       "farm": {
         "type": "object",
@@ -300,6 +352,41 @@
         },
         "description": "Statistics on farm location"
       },
+      "stat": {
+        "type": "object",
+        "properties": {
+          "_id": {
+            "$ref": "#/components/schemas/stat__id"
+          },
+          "count": {
+            "type": "integer"
+          },
+          "max": {
+            "type": "number"
+          },
+          "min": {
+            "type": "number"
+          },
+          "avg": {
+            "type": "number"
+          }
+        },
+        "description": "Statistic on given location and sensorType"
+      },
+      "valueError": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string"
+          },
+          "field": {
+            "type": "string"
+          },
+          "tip": {
+            "type": "string"
+          }
+        }
+      },
       "inline_response_200": {
         "type": "object",
         "properties": {
@@ -329,16 +416,10 @@
           "pages": {
             "type": "number"
           },
-          "sensors": {
+          "locationStats": {
             "type": "array",
             "items": {
-              "$ref": "#/components/schemas/sensorStat"
-            }
-          },
-          "locations": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/locationStat"
+              "$ref": "#/components/schemas/stat"
             }
           },
           "farms": {
@@ -361,24 +442,43 @@
       "inline_response_200_2": {
         "type": "object",
         "properties": {
-          "succesful": {
+          "successful": {
             "type": "integer"
           },
-          "unsuccesful": {
-            "$ref": "#/components/schemas/inline_response_200_2_unsuccesful"
+          "unsuccessful": {
+            "$ref": "#/components/schemas/inline_response_200_2_unsuccessful"
           }
         }
       },
-      "inline_response_200_2_unsuccesful": {
+      "inline_response_400": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string"
+          }
+        }
+      },
+      "stat__id": {
+        "type": "object",
+        "properties": {
+          "location": {
+            "type": "string"
+          },
+          "sensorType": {
+            "$ref": "#/components/schemas/sensorType"
+          }
+        }
+      },
+      "inline_response_200_2_unsuccessful": {
         "type": "object",
         "properties": {
           "count": {
             "type": "integer"
           },
-          "indexes": {
+          "rows": {
             "type": "array",
             "items": {
-              "type": "string"
+              "type": "integer"
             }
           }
         }

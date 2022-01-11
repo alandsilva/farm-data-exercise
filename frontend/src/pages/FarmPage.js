@@ -57,7 +57,7 @@ const FarmPage = () => {
   };
   return (
     <Grid container spacing={2}>
-      <Grid item md={3} sm={12}>
+      <Grid item md={4} sm={12}>
         <Filters
           filters={filters}
           resetFilters={resetFilters}
@@ -71,7 +71,7 @@ const FarmPage = () => {
           setDateMax={setDateMax}
         />
       </Grid>
-      <Grid item md={9} sm={12}>
+      <Grid item md={8} sm={12}>
         <Farms filters={filters} setPage={setPage} setLimit={setLimit} />
       </Grid>
     </Grid>
