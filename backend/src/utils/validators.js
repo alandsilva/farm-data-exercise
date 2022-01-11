@@ -24,41 +24,66 @@ const isValue = (value, sensor) => {
   }
 };
 
+const getTip = (sensor) => {
+  switch (sensor) {
+    case 'pH':
+      return 'between 0 and 14';
+    case 'temperature':
+      return 'between -50 and 100';
+    case 'rainFall':
+      return 'between 0 and 500';
+    default:
+      return '';
+  }
+};
+
 class ValueError extends Error {
-  constructor(message) {
+  constructor(message, field, tip) {
     super(message);
     this.name = 'ValueError';
+    this.field = field;
+    this.tip = tip;
   }
 }
 const parseValue = (value, sensor) => {
   const num = Number(value);
   if (!value || isNaN(num) || !isValue(value, sensor)) {
-    throw new ValueError(`Incorrect or missing value of ${sensor}=${value}`);
+    throw new ValueError(
+      `Incorrect value of sensorType ${sensor}`,
+      'value',
+      `must be ${getTip(sensor)}`
+    );
   }
   return num;
 };
 
-class DateError extends Error {
-  constructor(message) {
-    super(message);
-    this.name = 'DateError';
-  }
-}
 const parseDate = (date) => {
   if (!date || !isString(date) || !isDate(date))
-    throw new DateError(`Incorrect or missing date: ${date}.`);
+    throw new ValueError(
+      'Incorrect or missing date',
+      'datetime',
+      'must be valid date'
+    );
   return date;
 };
 
 const parseSensorType = (sensor) => {
   if (!sensor || !isString(sensor) || !isSensor(sensor))
-    throw new ValueError(`Incorrect or missing sensor: ${sensor}.`);
+    throw new ValueError(
+      'Incorrect or missing sensor.',
+      'sensorType',
+      'must be one of [pH, temperature, rainFall]'
+    );
   return sensor;
 };
 
 const parseLocation = (location) => {
   if (!location || !isString(location))
-    throw new ValueError(`Incorrect or missing location: ${location}.`);
+    throw new ValueError(
+      `Incorrect or missing location: ${location}.`,
+      'location',
+      'Is required and must be string'
+    );
   return location;
 };
 

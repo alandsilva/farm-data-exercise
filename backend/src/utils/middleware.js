@@ -14,9 +14,9 @@ const unknownEndpoint = (_req, res) => {
 
 const errorHandler = (error, _req, res, next) => {
   if (error.name === 'ValueError') {
-    return res.status(400).send({ error: error.message });
-  } else if (error.name === 'DateError') {
-    return res.status(400).json({ error: error.message });
+    return res
+      .status(400)
+      .send({ message: error.message, field: error.field, tip: error.tip });
   }
 
   // logger.error('error', error.message);
