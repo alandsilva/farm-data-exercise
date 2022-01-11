@@ -8,6 +8,7 @@ import {
   Tooltip,
   Legend,
 } from 'recharts';
+import { Box } from '@mui/material';
 
 const FarmsStatistics = (props) => {
   const phStats = props.stats.filter((loc) => loc._id.sensorType === 'pH');
@@ -18,8 +19,8 @@ const FarmsStatistics = (props) => {
     (loc) => loc._id.sensorType === 'rainFall'
   );
   return (
-    <div>
-      <BarChart width={700} height={250} data={phStats}>
+    <Box>
+      <BarChart width={500} height={250} data={phStats}>
         <CartesianGrid strokeDasharray='3 3' />
         <XAxis dataKey='_id.location' />
         <YAxis label={{ value: 'ph', angle: -90, position: 'insideLeft' }} />
@@ -29,7 +30,7 @@ const FarmsStatistics = (props) => {
         <Bar dataKey='avg' fill='#82ca9d' />
         <Bar dataKey='max' fill='black' />
       </BarChart>
-      <BarChart width={700} height={250} data={tempStats}>
+      <BarChart width={500} height={250} data={tempStats}>
         <CartesianGrid strokeDasharray='3 3' />
         <XAxis dataKey='_id.location' />
         <YAxis
@@ -41,7 +42,7 @@ const FarmsStatistics = (props) => {
         <Bar dataKey='avg' fill='#82ca9d' />
         <Bar dataKey='max' fill='black' />
       </BarChart>
-      <BarChart width={700} height={250} data={rainStats}>
+      <BarChart width={500} height={250} data={rainStats}>
         <CartesianGrid strokeDasharray='3 3' />
         <XAxis dataKey='_id.location' />
         <YAxis
@@ -53,7 +54,7 @@ const FarmsStatistics = (props) => {
         <Bar dataKey='avg' fill='#82ca9d' />
         <Bar dataKey='max' fill='black' />
       </BarChart>
-    </div>
+    </Box>
   );
 };
 

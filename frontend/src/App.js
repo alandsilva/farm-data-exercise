@@ -3,9 +3,9 @@ import farmsService from './services/farms';
 import Box from '@mui/material/Box';
 import FarmPage from './pages/FarmPage';
 import NewFarmPage from './pages/NewFarmPage';
-import { Link, Routes, Route } from 'react-router-dom';
-import { AppBar, Toolbar, Button } from '@mui/material';
+import { Routes, Route } from 'react-router-dom';
 import NewUploadPage from './pages/NewUploadPage';
+import Navbar from './components/Navbar';
 
 const App = () => {
   const [info, setInfo] = useState(null);
@@ -23,20 +23,7 @@ const App = () => {
   }, []);
   return (
     <Box sx={{ flexGrow: 1 }}>
-      <AppBar position='static'>
-        <Toolbar>
-          <Button color='inherit' component={Link} to='/'>
-            home
-          </Button>
-          <Button color='inherit' component={Link} to='/create'>
-            add+
-          </Button>
-          <Button color='inherit' component={Link} to='/upload'>
-            upload+
-          </Button>
-        </Toolbar>
-      </AppBar>
-
+      <Navbar />
       <Routes>
         <Route path='/' element={<FarmPage />} />
         <Route path='/create' element={<NewFarmPage />} />

@@ -56,27 +56,25 @@ const FarmPage = () => {
     setFilters({ ...filters, dateMax: value });
   };
   return (
-    <div>
-      <Grid container spacing={2}>
-        <Grid item xs={8}>
-          <Farms filters={filters} setPage={setPage} setLimit={setLimit} />
-        </Grid>
-        <Grid item xs={4}>
-          <Filters
-            filters={filters}
-            resetFilters={resetFilters}
-            setPhMin={setPhMin}
-            setPhMax={setPhMax}
-            setTempMin={setTempMin}
-            setTempMax={setTempMax}
-            setRainMin={setRainMin}
-            setRainMax={setRainMax}
-            setDateMin={setDateMin}
-            setDateMax={setDateMax}
-          />
-        </Grid>
+    <Grid container spacing={2}>
+      <Grid item md={3} sm={12}>
+        <Filters
+          filters={filters}
+          resetFilters={resetFilters}
+          setPhMin={setPhMin}
+          setPhMax={setPhMax}
+          setTempMin={setTempMin}
+          setTempMax={setTempMax}
+          setRainMin={setRainMin}
+          setRainMax={setRainMax}
+          setDateMin={setDateMin}
+          setDateMax={setDateMax}
+        />
       </Grid>
-    </div>
+      <Grid item md={9} sm={12}>
+        <Farms filters={filters} setPage={setPage} setLimit={setLimit} />
+      </Grid>
+    </Grid>
   );
 };
 
