@@ -21,7 +21,7 @@ services:
     image: farm-api
     build:
       context: ./backend
-      dockerfile: dev.DockerFile
+      dockerfile: dev.Dockerfile
     volumes:
       - ./backend:/usr/src/app
     environment:
