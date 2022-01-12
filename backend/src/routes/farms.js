@@ -36,7 +36,6 @@ router.post('/csv', uploader.single('farm'), async (req, res) => {
     // Upload to databse
     const result = await farmService.addCsvEntries(req.file.path);
     res.send(result);
-    // Remove file from temp folder
   }
 });
 

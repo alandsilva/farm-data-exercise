@@ -12,13 +12,9 @@ app.use(cors());
 app.use(express.json());
 app.use(middleware.requestLogger);
 
-app.use('/docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
-app.get('/ping', (_req, res) => {
-  console.log('someone pinged here');
-  res.send('pong');
-});
-
 app.use('/farms', FarmsRouter);
+
+app.use('/', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 app.use(middleware.unknownEndpoint);
 app.use(middleware.errorHandler);

@@ -6,28 +6,44 @@ My submission to the Solita Dev Academy assignment
 
 You will need installed on your device:
 
+- [Node.js](https://nodejs.org)
 - [Docker](https://www.docker.com)
 - [Docker-Compose](https://docs.docker.com/compose/install/) (only required on Linux!)
 
 ## Running the project
 
-The following commands install and run the development version of the app.
+The following commands install and run the development version of the app. They need to be run in order.
+
+1. Clone the project and move to the project's root direcory
 
 ```sh
 git clone https://github.com/alandsilva/farm-data-exercise.git
 cd farm-data-exercise
+```
+
+2. Install node modules
+
+```sh
+npm run install:all
+```
+
+This should take a few seconds. After it is done move to the next step
+
+3. From the project root run
+
+```sh
 docker-compose -f docker-compose.dev.yml up
 ```
 
+This can take from a few seconds to a couple of minutes
 Then from your browser you can access:
 
-- OpenAPI documentation from http://localhost:3000/api/docs
-- Express api from http://localhost:3000/api
+- OpenAPI documentation and Express api from http://localhost:3000/api
 - React client from http://localhost:3000
 
 ## Tests
 
-- Backend tests are availabele. To run them, from the project root run:
+- Backend tests are availabele. If you haven't done so already. Do steps 1 and 2 from 'Running th project' part above. Then to run the tests, from the project root run:
 
 ```sh
 docker-compose -f docker-compose.test.yml run test
@@ -48,6 +64,18 @@ docker-compose -f docker-compose.dev.yml down --volumes
 
 ```sh
 docker-compose -f docker-compose.test.yml down --volumes
+```
+
+- Afterwards you can delete the closed containers. The bellow command deletes all closed containers:
+
+```sh
+docker rm $(docker ps --filter status=exited -q)
+```
+
+- Lastly, you might want to delete the unused images that were created as baselines fo the containers. You can remove all unused images with the command: (**Beware!** The next command will remove all dangling images. You can read more about this [here](https://docs.docker.com/config/pruning/))
+
+```sh
+docker image prune
 ```
 
 # Description
