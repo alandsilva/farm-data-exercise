@@ -8,6 +8,7 @@ services:
       dockerfile: test.Dockerfile
     volumes:
       - ./backend:/usr/src/app
+      - test_modules/node_modules:/usr/src/app/node_modules
     environment:
       - TEST_MONGO_URL=mongodb://the_username:the_password@mongo-test:27017/the_test_database
     depends_on:
@@ -25,3 +26,5 @@ services:
     volumes:
       - ./mongo_test_seed:/docker-entrypoint-initdb.d
       - ./mongo_test_data:/data/db
+volumes:
+  test_modules:
