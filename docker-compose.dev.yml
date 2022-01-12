@@ -18,7 +18,7 @@ services:
       dockerfile: dev.Dockerfile
     volumes:
       - ./frontend/:/usr/src/app
-      - frontend_modules:/usr/src/app/node_modules
+      - /usr/src/app/node_modules
     environment:
       - REACT_APP_BACKEND_URL=http://localhost:3000/api
 
@@ -29,7 +29,7 @@ services:
       dockerfile: dev.Dockerfile
     volumes:
       - ./backend:/usr/src/app
-      - backend_modules:/usr/src/app/node_modules
+      - /usr/src/app/node_modules
     environment:
       - MONGO_URL=mongodb://the_username:the_password@mongo:27017/the_database
 
@@ -45,7 +45,3 @@ services:
     volumes:
       - ./mongo_seed:/docker-entrypoint-initdb.d
       - ./mongo_data:/data/db
-
-volumes:
-  backend_modules:
-  frontend_modules:

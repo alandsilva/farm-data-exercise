@@ -3,7 +3,6 @@ const isString = (text) => {
 };
 
 const isDate = (date) => {
-  console.log(Date.parse);
   return Boolean(Date.parse(date));
 };
 
