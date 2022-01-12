@@ -1,5 +1,4 @@
-import React, { useEffect, useState } from 'react';
-import farmsService from './services/farms';
+import React from 'react';
 import Box from '@mui/material/Box';
 import FarmPage from './pages/FarmPage';
 import NewFarmPage from './pages/NewFarmPage';
@@ -8,19 +7,6 @@ import NewUploadPage from './pages/NewUploadPage';
 import Navbar from './components/Navbar';
 
 const App = () => {
-  const [info, setInfo] = useState(null);
-
-  useEffect(() => {
-    const getInfo = async () => {
-      const data = await farmsService.getInfo();
-      setInfo(data);
-      console.log(data);
-    };
-
-    getInfo().catch((err) => {
-      console.log(err);
-    });
-  }, []);
   return (
     <Box sx={{ flexGrow: 1 }}>
       <Navbar />
