@@ -35,11 +35,11 @@ This should take a few seconds. After it is done move to the next step
 docker-compose -f docker-compose.dev.yml up
 ```
 
-This can take from a few seconds to a couple of minutes
+This will take a few minutes to complete.
 Then from your browser you can access:
 
-- OpenAPI documentation and Express api from http://localhost:3000/api
 - React client from http://localhost:3000
+- OpenAPI documentation and Express api from http://localhost:3000/api (**Note:** You might need to type this url manually because the browser might redirect to localhost/api)
 
 ## Tests
 
@@ -80,17 +80,21 @@ docker image prune
 
 # Description
 
-This is a full stack web project for visualizing, adding and managing data on farms.
+This is a full stack web project for visualizing and adding data on farms.
 New farm entries can be made either by adding a single entry or by uploading a csv file.
 
 ## Technologies used
 
 ### Environment
 
-I used Docker and Docker Compose during development because they provides an easy way to setup a local multi-container development environment. It also made it easy to run a MongoDB container alongside the api and client containers.
+I used Docker and Docker Compose during development because they provide an easy way to setup a local multi-container development environment.
+It also allowed me to start the MongoDB containers (both for development and testing) with some data in them.
 
 ### Backend and Frontend
 
-- Express.js was used to build the backend because I have extensive experience with it.
-- React was used to develop the client app. It was chosen because it allows for reusable components, making refactoring simple.
-- The programming language on both backend and frontend is Javascript. I chose it because I have the most experience with it and it simpler to use the same programming language in both cases.
+The technologies listed bellow were chosen primarily because I have previous experience using them:
+
+- **Express.js**
+- **React** was used to develop the client app. It was chosen because it allows for reusable components, making refactoring simple.
+- The programming language on both backend and frontend is **Javascript**. It was choses because it is simpler to develop both sides of the application with the same programming language.
+- **SwaggerHub** was used to create the OPENAPI documentation
