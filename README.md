@@ -35,7 +35,7 @@ This should take a few seconds. After it is done move to the next step
 docker-compose -f docker-compose.dev.yml up
 ```
 
-This will take a few minutes to complete.
+This will take a few minutes to complete the first time you run it.
 Then from your browser you can access:
 
 - React client from http://localhost:3000
@@ -43,7 +43,7 @@ Then from your browser you can access:
 
 ## Tests
 
-- Backend tests are availabele. If you haven't done so already. Do steps 1 and 2 from 'Running th project' part above. Then to run the tests, from the project root run:
+- Backend tests are available. If you haven't done so already. Do steps 1 and 2 from 'Running the project' part above. Then to run the tests, from the project root run:
 
 ```sh
 docker-compose -f docker-compose.test.yml run test
@@ -75,7 +75,7 @@ docker rm $(docker ps --filter status=exited -q)
 - Lastly, you might want to delete the unused images that were created as baselines fo the containers. You can remove all unused images with the command: (**Beware!** The next command will remove all dangling images. You can read more about this [here](https://docs.docker.com/config/pruning/))
 
 ```sh
-docker image prune
+docker image prune -a
 ```
 
 # Description
