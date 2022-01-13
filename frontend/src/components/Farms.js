@@ -24,7 +24,6 @@ const Farms = (props) => {
         .map((key) => `${key}=${props.filters[key]}`)
         .join('&');
       const data = await farmsService.getFarms(qs);
-      console.log(data);
       setFarms(data.farms);
       setCount(data.count);
       setStats(data.locationStats);
@@ -36,7 +35,6 @@ const Farms = (props) => {
     const getInfo = async () => {
       const data = await farmsService.getInfo();
       setLocationList(data.locations);
-      console.log(data);
     };
     getInfo();
   }, []);

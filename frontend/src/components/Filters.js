@@ -9,11 +9,7 @@ const Filters = (props) => {
   return (
     <Box>
       <h3>Filters</h3>
-      <Grid
-        container
-        spacing={2}
-        xs={{ alignItems: 'center', justifyContent: 'center' }}
-      >
+      <Grid container spacing={2}>
         <Grid item md={12} sm={6} xs={12}>
           <Filter
             title='pH'

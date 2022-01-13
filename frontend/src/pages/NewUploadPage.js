@@ -15,7 +15,6 @@ const NewUploadPage = () => {
 
     try {
       const result = await farmsService.uploadCsv(formData);
-      console.log(result);
       setSuccessMessage(`${result.successful} farms succesfully added`);
       if (result.unsuccessful.count > 0)
         setAlertMessage(

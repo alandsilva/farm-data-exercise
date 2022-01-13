@@ -51,7 +51,6 @@ const Filter = (props) => {
 
           <Grid item xs>
             <Slider
-              getAriaLabel={() => 'Temperature range'}
               value={[props.min, props.max]}
               onChange={handleChange}
               valueLabelDisplay='auto'

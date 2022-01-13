@@ -32,7 +32,6 @@ const FarmPage = () => {
   };
 
   const setPhMin = (value) => {
-    console.log('called with:', value);
     setFilters({ ...filters, phMin: value });
   };
   const setPhMax = (value) => {
