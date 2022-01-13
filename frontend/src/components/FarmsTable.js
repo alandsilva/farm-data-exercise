@@ -7,6 +7,7 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import TablePagination from '@mui/material/TablePagination';
+import LocationFilter from './LocationFilter';
 
 const FarmsTable = (props) => {
   return (
@@ -15,7 +16,14 @@ const FarmsTable = (props) => {
         <Table sx={{ minWidth: 650 }} aria-label='simple table'>
           <TableHead>
             <TableRow>
-              <TableCell>Location</TableCell>
+              <TableCell>
+                Location{' '}
+                <LocationFilter
+                  location={props.filters.location}
+                  setLocation={props.setLocation}
+                  locationList={props.locationList}
+                />
+              </TableCell>
               <TableCell align='right'>date</TableCell>
               <TableCell align='right'>sensor</TableCell>
               <TableCell align='right'>value</TableCell>

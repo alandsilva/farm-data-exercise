@@ -12,6 +12,8 @@ const Farms = (props) => {
   const [count, setCount] = useState(0);
   const [tab, setTab] = React.useState('1');
 
+  const [locationList, setLocationList] = useState([]);
+
   const handleChange = (event, newValue) => {
     setTab(newValue);
   };
@@ -29,6 +31,15 @@ const Farms = (props) => {
     };
     getFarms();
   }, [props.filters]);
+
+  useEffect(() => {
+    const getInfo = async () => {
+      const data = await farmsService.getInfo();
+      setLocationList(data.locations);
+      console.log(data);
+    };
+    getInfo();
+  }, []);
   return (
     <div>
       <Box sx={{ width: '100%', typography: 'body1' }}>
@@ -40,7 +51,12 @@ const Farms = (props) => {
             </TabList>
           </Box>
           <TabPanel value='1'>
-            <FarmsTable farms={farms} count={count} {...props} />
+            <FarmsTable
+              farms={farms}
+              count={count}
+              locationList={locationList}
+              {...props}
+            />
           </TabPanel>
           <TabPanel value='2'>
             <FarmsStatistics stats={stats} />

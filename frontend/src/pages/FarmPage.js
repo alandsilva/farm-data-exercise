@@ -15,6 +15,7 @@ const FarmPage = () => {
     rainMax: 500,
     dateMin: '',
     dateMax: '',
+    location: '',
   };
   const [filters, setFilters] = useState(initialFilters);
 
@@ -55,6 +56,9 @@ const FarmPage = () => {
   const setDateMax = (value) => {
     setFilters({ ...filters, dateMax: value });
   };
+  const setLocation = (value) => {
+    setFilters({ ...filters, location: value });
+  };
   return (
     <Grid container spacing={2}>
       <Grid item md={4} sm={12}>
@@ -72,7 +76,12 @@ const FarmPage = () => {
         />
       </Grid>
       <Grid item md={8} sm={12}>
-        <Farms filters={filters} setPage={setPage} setLimit={setLimit} />
+        <Farms
+          filters={filters}
+          setPage={setPage}
+          setLimit={setLimit}
+          setLocation={setLocation}
+        />
       </Grid>
     </Grid>
   );

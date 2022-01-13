@@ -5,6 +5,7 @@ const queryBuilder = (urlQuery) => {
   const tempQuery = [];
   const rainQuery = [];
   const dateQuery = [];
+  const locationQuery = [];
   if (!urlQuery) {
     return {};
   }
@@ -19,6 +20,7 @@ const queryBuilder = (urlQuery) => {
     dateMax,
     page,
     limit,
+    location,
   } = urlQuery;
 
   if (phMax) {
@@ -78,6 +80,13 @@ const queryBuilder = (urlQuery) => {
     });
   }
 
+  if (location) {
+    console.log('There is a location', location);
+    locationQuery.push({
+      location: { $eq: location },
+    });
+  }
+
   const andArray = [];
   if (phQuery.length > 0) andArray.push({ $and: phQuery });
   if (tempQuery.length > 0) andArray.push({ $and: tempQuery });
@@ -85,9 +94,9 @@ const queryBuilder = (urlQuery) => {
 
   let matchQuery = {};
   if (andArray.length > 0)
-    matchQuery = { $and: [...dateQuery, { $or: andArray }] };
-  else if (dateQuery.length > 0) {
-    matchQuery = { $and: [...dateQuery] };
+    matchQuery = { $and: [...dateQuery, ...locationQuery, { $or: andArray }] };
+  else if (dateQuery.length > 0 || locationQuery.length > 0) {
+    matchQuery = { $and: [...dateQuery, ...locationQuery] };
   }
 
   let pageNum = 0;
