@@ -43,7 +43,7 @@ Then from your browser you can access:
 
 ## Tests
 
-- Backend tests are availabele. If you haven't done so already. Do steps 1 and 2 from 'Running th project' part above. Then to run the tests, from the project root run:
+- Backend tests are available. If you haven't done so already. Do steps 1 and 2 from 'Running the project' part above. Then to run the tests, from the project root run:
 
 ```sh
 docker-compose -f docker-compose.test.yml run test
